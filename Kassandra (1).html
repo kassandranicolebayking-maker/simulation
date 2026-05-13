@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kids Fun Game</title>
+
+<style>
+    body{
+        margin:0;
+        font-family:Arial, sans-serif;
+        background:linear-gradient(to right, #ff9a9e, #fad0c4);
+        overflow:hidden;
+        text-align:center;
+    }
+
+    h1{
+        color:white;
+        margin-top:20px;
+        font-size:40px;
+    }
+
+    p{
+        color:white;
+        font-size:22px;
+    }
+
+    #gameArea{
+        position:relative;
+        width:100vw;
+        height:80vh;
+    }
+
+    .balloon{
+        width:80px;
+        height:100px;
+        border-radius:50%;
+        position:absolute;
+        cursor:pointer;
+        animation:float 6s linear forwards;
+    }
+
+    @keyframes float{
+        from{
+            transform:translateY(100vh);
+        }
+        to{
+            transform:translateY(-150vh);
+        }
+    }
+
+    #scoreBoard{
+        font-size:28px;
+        color:yellow;
+        font-weight:bold;
+    }
+
+    #startBtn{
+        padding:15px 30px;
+        font-size:22px;
+        border:none;
+        border-radius:10px;
+        background:orange;
+        color:white;
+        cursor:pointer;
+    }
+
+    #startBtn:hover{
+        background:darkorange;
+    }
+
+</style>
+</head>
+
+<body>
+
+<h1>🎈 Pop the Balloons 🎈</h1>
+<p>Click the balloons before they fly away!</p>
+
+<div id="scoreBoard">Score: 0</div>
+<br>
+<button id="startBtn" onclick="startGame()">Start Game</button>
+
+<div id="gameArea"></div>
+
+<script>
+
+let score = 0;
+let gameRunning = false;
+
+const colors = [
+    "red",
+    "blue",
+    "green",
+    "yellow",
+    "purple",
+    "orange",
+    "pink"
+];
+
+function startGame(){
+
+    if(gameRunning) return;
+
+    gameRunning = true;
+    score = 0;
+
+    document.getElementById("scoreBoard").innerHTML = "Score: " + score;
+
+    setInterval(createBalloon, 800);
+}
+
+function createBalloon(){
+
+    if(!gameRunning) return;
+
+    const balloon = document.createElement("div");
+    balloon.classList.add("balloon");
+
+    balloon.style.background =
+        colors[Math.floor(Math.random() * colors.length)];
+
+    balloon.style.left =
+        Math.random() * (window.innerWidth - 100) + "px";
+
+    balloon.style.animationDuration =
+        (Math.random() * 3 + 4) + "s";
+
+    balloon.onclick = function(){
+
+        score++;
+
+        document.getElementById("scoreBoard").innerHTML =
+            "Score: " + score;
+
+        balloon.remove();
+    };
+
+    document.getElementById("gameArea").appendChild(balloon);
+
+    setTimeout(() => {
+        balloon.remove();
+    }, 7000);
+}
+
+</script>
+
+</body>
+</html>
